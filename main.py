@@ -13,7 +13,6 @@ import re
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='cultdev', intents=intents, help_command=None)
-bot.trollsent = datetime.now()
 
 beanslist = ["cultist","beans","beance"]
 wronglist = [r'\baram\b', "wrong", "league of legends", "fortnite", "meowdy", "everypony"]
@@ -27,6 +26,7 @@ quote_channel = 776547555903012904
 async def on_ready():
     print('We have logged in as {0.user}'.format(bot))
     bot.trollsent = datetime.now()
+    bot.trollme = datetime.now() - timedelta(hours = 1)
     await bot.change_presence(activity=discord.Game(name="in the basement..."))
  
 @bot.event
@@ -99,6 +99,13 @@ async def on_message(message):
       vuln = discord.utils.get(bot.emojis, name='vuln')
       await message.add_reaction(vuln)
 
+  #Troll myself
+  if bot.trollme < datetime.now() - timedelta(hours = 1):
+    print("called me troll")
+    if text.lower().find("crystalline conflict")!=-1 or text.lower().find("crystaline conflict")!=-1:
+      bot.trollme = datetime.now()
+      await message.reply("I see you like Crystalline Conflict! It just so happens that <@204948060491481089> does as well! Please be sure to invite <@204948060491481089> to your next Crystalline Conflict match, in order to prevent <@204948060491481089> from falling into a deep state of depression. Keep your resident <@204948060491481089> happy today! Invite them to your next CC match! Or else!")
+      
   #Troll League and Fortnite players
   if bot.trollsent < datetime.now() - timedelta(minutes = 10):
     playing = message.author.activity
