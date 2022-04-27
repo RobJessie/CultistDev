@@ -10,10 +10,10 @@ import nacl
 import ffmpeg
 import opus
 
-#meowdy, everypony, all se.1-16, clean up aram detection, fix perms for memquote
+#meowdy, everypony, all se.1-16, clean up aram detection
 
 intents = discord.Intents.all()
-bot = commands.Bot(command_prefix='cult', intents=intents, help_command=None)
+bot = commands.Bot(command_prefix='cultdev', intents=intents, help_command=None)
 bot.trollsent = datetime.now()
 
 beanslist = ["cultist","beans","beance"]
@@ -258,7 +258,8 @@ async def memquote(ctx, arg):
     channels = ctx.guild.text_channels
     all_messages = []
     for tc in channels:
-      chanmessages= await tc.history().flatten()
+      if bot.user in tc.members:
+        chanmessages= await tc.history().flatten()
       for m in chanmessages:
         all_messages.append(m)
     messages = []
