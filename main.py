@@ -295,12 +295,20 @@ async def quote(ctx):
 async def play(ctx, arg):
   vc = ctx.author.voice
   if vc is not None:
-    vcn = vc.channel
-    if vcn is not None:
-      voiceclient = await vcn.connect()
-      voiceclient.play(discord.FFmpegOpusAudio('sounds/'+arg+'.mp3'))
-      await asyncio.sleep(2.5)
-      await voiceclient.disconnect()
+    path = 'sounds/'+arg+'.mp3'
+    if os.path.exists(path):
+      sound = discord.FFmpegOpusAudio(path)
+      vcn = vc.channel
+      if vcn is not None:
+        voiceclient = await vcn.connect()
+        voiceclient.play(sound)
+        await asyncio.sleep(2.5)
+        await voiceclient.disconnect()
+    else:
+      info = ""
+      if arg.find('.')==-1:
+        info = "(Try putting a . between se and the number)"
+      await ctx.send("Couldn't find sound effect \""+arg+"\" "+info)
   else:
     await ctx.send("Can't play sound effects if you're not in a voice channel.")
     
