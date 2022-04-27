@@ -9,14 +9,16 @@ from datetime import datetime, timedelta
 import nacl
 import ffmpeg
 import opus
+import re
 
-#meowdy, everypony, all se.1-16, clean up aram detection
+#meowdy, everypony, all se.1-16
 
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='cultdev', intents=intents, help_command=None)
 bot.trollsent = datetime.now()
 
 beanslist = ["cultist","beans","beance"]
+wronglist = [r'\baram\b', "wrong", "league of legends", "fortnite", "meowdy", "everypony"]
 trolllist = [140265857615003648]
 
 general = 765369488030957620
@@ -74,9 +76,10 @@ async def on_message(message):
     await message.add_reaction(beans)
 
   #Wrong react
-  if text.lower().find("wrong")!=-1 or text.lower().find("aram")!=-1:
-    wrong = discord.utils.get(bot.emojis, name='wrong')
-    await message.add_reaction(wrong)
+  for x in wronglist:
+    if re.search(x,text.lower()):
+      wrong = discord.utils.get(bot.emojis, name='wrong')
+      await message.add_reaction(wrong)
 
   #Ban gamer messages
   for x in badwordslist:
