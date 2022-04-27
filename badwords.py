@@ -1,0 +1,1 @@
+badwordslist = ["nigger", "faggot"]
