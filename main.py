@@ -267,8 +267,8 @@ async def memquote(ctx, arg):
     for tc in channels:
       if bot.user in tc.members:
         chanmessages= await tc.history().flatten()
-      for m in chanmessages:
-        all_messages.append(m)
+        for m in chanmessages:
+          all_messages.append(m)
     messages = []
     for m in all_messages:
       if m.author==mem:
