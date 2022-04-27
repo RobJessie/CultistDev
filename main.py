@@ -317,8 +317,21 @@ async def play(ctx, arg):
     
 @bot.command()
 async def help(ctx):
-  await ctx.send("Hi! \nI'm the mysterious entity in the basement! Here's a list of what I can do:\n\n**cultrps** \"name\"- Play your friend in a game of rock paper scissors that is 100% fair for everyone!\n**cultbotrps** - Play me in a game of rock paper scissors that is 100% fair for everyone!\n**cultbeans** - I will send beans\n**cultrand** - I will send a random emoji\n**cultquote** - I will send a link to a random quote from <#776547555903012904>\n**cultmemquote** \"name\"- I will send a link to a random message from a specific member\n**cultplay** \"se.1-16\" - I will come into the vc and play the sound effect of your choice\n\nWherever you need to enter a name, use the member's current nickname or @ them.\nI do some other stuff but you'll just have to figure that out")
-      
+  await ctx.send("Hi! \nI'm the mysterious entity in the basement! Here's a list of what I can do:\n\n**cultrps** \"name\"- Play your friend in a game of rock paper scissors that is 100% fair for everyone!\n**cultbotrps** - Play me in a game of rock paper scissors that is 100% fair for everyone!\n**cultbeans** - I will send beans\n**cultrand** - I will send a random emoji\n**cultquote** - I will send a link to a random quote from <#776547555903012904>\n**cultmemquote** \"name\"- I will send a link to a random message from a specific member\n**cultplay** \"se.1-16\" - I will come into the vc and play the sound effect of your choice\n**cultpinax** - I will give you a random Pinax variation\n\nWherever you need to enter a name, use the member's current nickname or @ them.\nI do some other stuff but you'll just have to figure that out")
+
+@bot.command()
+async def pinax(ctx):
+  firsts=['lightning edge', 'water knockback']
+  seconds=['fire stack','poison spread']
+  directions=['north','south','east','west']
+  capesword=['sword cleave', 'cape knockback']
+
+  f1 = random.randint(0,1)
+  f2 = 1 if f1==0 else 0
+  s1 = random.randint(0,1)
+  s2 = 1 if s1==0 else 0
+
+  await ctx.send(firsts[f1]+" "+seconds[s1]+" "+directions[random.randint(0,3)]+" "+firsts[f2]+" "+capesword[random.randint(0,1)]+" "+seconds[s2])
 #@bot.command()
 #async def rand(ctx):
 #user_id = "201909896357216256"
