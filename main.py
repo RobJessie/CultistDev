@@ -297,12 +297,15 @@ async def play(ctx, arg):
   if vc is not None:
     path = 'sounds/'+arg+'.mp3'
     if os.path.exists(path):
-      sound = discord.FFmpegOpusAudio(path)
+      sound = discord.FFmpegOpusAudio(path, bitrate=64)
       vcn = vc.channel
       if vcn is not None:
         voiceclient = await vcn.connect()
         voiceclient.play(sound)
-        await asyncio.sleep(2.5)
+        await asyncio.sleep(.2)
+        playing = voiceclient.is_playing()
+        while playing:
+          playing = voiceclient.is_playing()
         await voiceclient.disconnect()
     else:
       info = ""
