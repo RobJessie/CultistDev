@@ -11,8 +11,6 @@ import ffmpeg
 import opus
 import re
 
-#meowdy, everypony, all se.1-16
-
 intents = discord.Intents.all()
 bot = commands.Bot(command_prefix='cultdev', intents=intents, help_command=None)
 bot.trollsent = datetime.now()
@@ -160,7 +158,10 @@ async def gamernameban(member):
 @bot.command()
 async def rps(ctx, arg):
   members = ctx.guild.members
+  pin = arg.strip('<').strip('>').strip('@')
   mem = discord.utils.get(members, display_name=arg)
+  if mem is None:
+    mem = discord.utils.get(members, id=int(pin))
   if mem is not None:
     rock = '🪨'
     scissors = '✂️'
@@ -256,7 +257,10 @@ async def rand(ctx):
 @bot.command()
 async def memquote(ctx, arg):
   members = ctx.guild.members
+  pin = arg.strip('<').strip('>').strip('@')
   mem = discord.utils.get(members, display_name=arg)
+  if mem is None:
+    mem = discord.utils.get(members, id=int(pin))
   if mem is not None:
     channels = ctx.guild.text_channels
     all_messages = []
@@ -288,21 +292,21 @@ async def quote(ctx):
   await ctx.send(ref.jump_url)
 
 @bot.command()
-async def se11(ctx):
+async def play(ctx, arg):
   vc = ctx.author.voice
   if vc is not None:
     vcn = vc.channel
     if vcn is not None:
       voiceclient = await vcn.connect()
-      voiceclient.play(discord.FFmpegOpusAudio('se-11.mp3'))
+      voiceclient.play(discord.FFmpegOpusAudio('sounds/'+arg+'.mp3'))
       await asyncio.sleep(2.5)
       await voiceclient.disconnect()
   else:
     await ctx.send("Can't play sound effects if you're not in a voice channel.")
-
+    
 @bot.command()
 async def help(ctx):
-  await ctx.send("Hi! \nI'm the mysterious entity in the basement! Here's a list of what I can do:\n\n**cultrps** \"name\"- Play your friend in a game of rock paper scissors that is 100% fair for everyone!\n**cultbotrps** - Play me in a game of rock paper scissors that is 100% fair for everyone!\n**cultbeans** - I will send beans\n**cultrand** - I will send a random emoji\n**cultquote** - I will send a link to a random quote from <#776547555903012904>\n**cultmemquote** \"name\"- I will send a link to a random message from a specific member\n**cultse11** - I will come into the vc and <se.11> you\n\nWherever you need to enter a name, use the member's current nickname.\nI do some other stuff but you'll just have to figure that out")
+  await ctx.send("Hi! \nI'm the mysterious entity in the basement! Here's a list of what I can do:\n\n**cultrps** \"name\"- Play your friend in a game of rock paper scissors that is 100% fair for everyone!\n**cultbotrps** - Play me in a game of rock paper scissors that is 100% fair for everyone!\n**cultbeans** - I will send beans\n**cultrand** - I will send a random emoji\n**cultquote** - I will send a link to a random quote from <#776547555903012904>\n**cultmemquote** \"name\"- I will send a link to a random message from a specific member\n**cultplay** \"se.1-16\" - I will come into the vc and play the sound effect of your choice\n\nWherever you need to enter a name, use the member's current nickname or @ them.\nI do some other stuff but you'll just have to figure that out")
       
 #@bot.command()
 #async def rand(ctx):
