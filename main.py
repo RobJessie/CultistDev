@@ -289,7 +289,7 @@ async def memquote(ctx, arg):
 @bot.command()
 async def quote(ctx):
   chan = ctx.guild.get_channel(quote_channel)
-  all_messages = await chan.history().flatten()
+  all_messages = await chan.history(limit=None).flatten()
   messages = []
   for m in all_messages:
     if m.content.find(':')!=-1 or m.content.find('-')!=-1:
