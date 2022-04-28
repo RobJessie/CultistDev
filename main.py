@@ -103,7 +103,7 @@ async def on_message(message):
   if bot.trollme < datetime.now() - timedelta(hours = 1):
     if text.casefold().find("crystalline")!=-1 or text.casefold().find("crystaline")!=-1 or text.casefold().find("crysstalline")!=-1:
       bot.trollme = datetime.now()
-      await message.reply("I see you like Crystalline Conflict! It just so happens that <@204948060491481089> does as well! Please be sure to ask <@204948060491481089> to queue with you for your next Crystalline Conflict match. Crystalline Conflict courses through <@204948060491481089>'s veins, and they would be utterly distrought if 24 hours goes by without having their Afflatus purged.")
+      await message.reply("I see you like Crystalline Conflict! It just so happens that <@204948060491481089> does as well! Please be sure to ask <@204948060491481089> to queue with you for your next Crystalline Conflict match. Crystalline Conflict courses through <@204948060491481089>'s veins, and they would be utterly distraught if 24 hours goes by without having their Afflatus purged.")
 
   #Troll League and Fortnite players
   if bot.trollsent < datetime.now() - timedelta(minutes = 10):
