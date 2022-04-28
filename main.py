@@ -16,7 +16,7 @@ bot = commands.Bot(command_prefix='cultdev', intents=intents, help_command=None)
 
 beanslist = ["cultist","beans","beance"]
 wronglist = [r'\baram\b', "wrong", "league of legends", "fortnite", "meowdy", "everypony"]
-trolllist = [140265857615003648]
+trolllist = [140265857615003648, 76599561069527040]
 
 general = 765369488030957620
 officer = 961839000354717696
@@ -60,7 +60,7 @@ async def on_message(message):
 
   #Beans react
   for x in beanslist:
-    if text.lower().find(x) !=-1:
+    if text.casefold().find(x) !=-1:
       beans = discord.utils.get(bot.emojis, name='beans')
       await message.add_reaction(beans)
 
@@ -75,13 +75,13 @@ async def on_message(message):
 
   #Wrong react
   for x in wronglist:
-    if re.search(x,text.lower()):
+    if re.search(x,text.casefold()):
       wrong = discord.utils.get(bot.emojis, name='wrong')
       await message.add_reaction(wrong)
 
   #Ban gamer messages
   for x in badwordslist:
-    if text.lower().find(x.lower()) != -1:
+    if text.casefold().find(x.casefold()) != -1:
       idiot = message.author
       await idiot.ban(reason="Gamer word")
       officer_chat = message.guild.get_channel(officer)
@@ -101,23 +101,20 @@ async def on_message(message):
 
   #Troll myself
   if bot.trollme < datetime.now() - timedelta(hours = 1):
-    print("called me troll")
-    if text.lower().find("crystalline conflict")!=-1 or text.lower().find("crystaline conflict")!=-1:
+    if text.casefold().find("crystalline conflict")!=-1 or text.casefold().find("crystaline conflict")!=-1:
       bot.trollme = datetime.now()
       await message.reply("I see you like Crystalline Conflict! It just so happens that <@204948060491481089> does as well! Please be sure to invite <@204948060491481089> to your next Crystalline Conflict match, in order to prevent <@204948060491481089> from falling into a deep state of depression. Keep your resident <@204948060491481089> happy today! Invite them to your next CC match! Or else!")
-      
+
   #Troll League and Fortnite players
   if bot.trollsent < datetime.now() - timedelta(minutes = 10):
     playing = message.author.activity
-    print(playing)
     if playing is not None:
       pname = playing.name
-      print(pname)
       if pname is not None:
-        if pname.lower().find("league of legends")!=-1:
+        if pname.casefold().find("league of legends")!=-1:
           await message.reply("Thanks for your message! \n\nHowever, it has come to my attention that you're currently playing League of Legends. This is unfortunate. However, there is a solution! Kindly follow this link to make the lives of yourself and everyone else better! \n\nhttps://youtu.be/EjHKIJ90FtY")
           bot.trollsent = datetime.now()
-        if pname.lower().find("fortnite")!=-1:
+        if pname.casefold().find("fortnite")!=-1:
           await message.reply("Thanks for your message! \n\nHowever, it has come to my attention that you're currently playing Fortnite. This is unfortunate. However, there is a solution! Kindly follow this link to make the lives of yourself and everyone else better! \n\nhttps://www.youtube.com/watch?v=cL6dtRYgSGs")
           bot.trollsent = datetime.now()
       
@@ -151,13 +148,13 @@ async def on_member_join(member):
 @bot.event
 async def on_reaction_add(reaction, user):
   if reaction.custom_emoji:
-    if reaction.emoji.name.lower() == "beans" or reaction.emoji.name.lower() == "beance":
+    if reaction.emoji.name.casefold() == "beans" or reaction.emoji.name.casefold() == "beance":
       await reaction.message.add_reaction(reaction.emoji)
   
 #Ban people with gamer names
 async def gamernameban(member):
   for x in badwordslist:
-    if member.display_name.lower().find(x) != -1:
+    if member.display_name.casefold().find(x) != -1:
       await member.ban(reason="Gamer word in name")
       officer_chat = member.guild.get_channel(officer)
       await officer_chat.send(f"<@&961839566938075216> Auto-banned {member.mention} ({member.display_name}) for having a gamer word in their name.")
@@ -264,17 +261,18 @@ async def rand(ctx):
 @bot.command()
 async def memquote(ctx, arg):
   members = ctx.guild.members
-  pin = arg.strip('<').strip('>').strip('@')
   mem = discord.utils.get(members, display_name=arg)
   if mem is None:
+    pin = arg.strip('<').strip('>').strip('@')
     mem = discord.utils.get(members, id=int(pin))
   if mem is not None:
     channels = ctx.guild.text_channels
     all_messages = []
     for tc in channels:
       if bot.user in tc.members:
-        chanmessages= await tc.history().flatten()
+        chanmessages= await tc.history(limit=None).flatten()
         for m in chanmessages:
+          print(m.content)
           all_messages.append(m)
     messages = []
     for m in all_messages:
@@ -339,10 +337,6 @@ async def pinax(ctx):
   s2 = 1 if s1==0 else 0
 
   await ctx.send(firsts[f1]+" "+seconds[s1]+" "+directions[random.randint(0,3)]+" "+firsts[f2]+" "+capesword[random.randint(0,1)]+" "+seconds[s2])
-#@bot.command()
-#async def rand(ctx):
-#user_id = "201909896357216256"
-#await message.channel.send(f"Happy birthday!<@{user_id}>!!!!!!!!!!!!!!!!!!!!!!")
   
 keep_alive()
 bot.run(os.getenv('CULTIST_DEV_TOKEN'))
