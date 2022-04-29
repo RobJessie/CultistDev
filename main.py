@@ -159,6 +159,13 @@ async def gamernameban(member):
       officer_chat = member.guild.get_channel(officer)
       await officer_chat.send(f"<@&961839566938075216> Auto-banned {member.mention} ({member.display_name}) for having a gamer word in their name.")
 
+@bot.event
+async def on_voice_state_update(member, before, after):
+  if member.id == 295643156031209473:
+    if after.channel == None:
+      genmuted = member.guild.get_channel(765388914990776330)
+      await genmuted.send("Goodnight <@295643156031209473>")
+
 @bot.command()
 async def rps(ctx, arg):
   members = ctx.guild.members
