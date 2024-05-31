@@ -427,7 +427,7 @@ async def pinax(ctx):
 
 
 @bot.command()
-async def assist(ctx, arg):
+async def speak(ctx, arg):
     if ctx.author.id not in bot.chat.keys():
         messages=[
             {"role": "system", "content": "You are Cultist, a highly sarcastic assistant of the Totally Not A Cult free company."}
@@ -457,23 +457,23 @@ async def assist(ctx, arg):
     for r in replylist:
         await ctx.reply(r)
 
-@bot.command()
-async def speak(ctx, arg):
-    airesponse = openai.Completion.create(
-        model="text-curie-001",
-        prompt=arg,
-        max_tokens=1024,
-        temperature=0.3,
-        presence_penalty=1.5
-    )
-
-    reply=airesponse.choices[0].text
-
-    n = 1500
-    replylist = [reply[i:i+n] for i in range(0, len(reply), n)]
-
-    for r in replylist:
-        await ctx.reply(r)
+# @bot.command()
+# async def speak(ctx, arg):
+#     airesponse = openai.Completion.create(
+#         model="text-curie-001",
+#         prompt=arg,
+#         max_tokens=1024,
+#         temperature=0.3,
+#         presence_penalty=1.5
+#     )
+#
+#     reply=airesponse.choices[0].text
+#
+#     n = 1500
+#     replylist = [reply[i:i+n] for i in range(0, len(reply), n)]
+#
+#     for r in replylist:
+#         await ctx.reply(r)
 
 def num_tokens_message(messages):
     encoding = tiktoken.encoding_for_model("gpt-3.5-turbo-0301")
@@ -518,6 +518,9 @@ async def image(ctx, arg):
         print(e)
         await ctx.reply("Something went wrong, try again.")
 
-# keep_alive()
+@bot.command()
+async def sync(ctx):
+    await bot.tree.sync()
+
 bot.run(os.getenv('TOKEN'))
 
